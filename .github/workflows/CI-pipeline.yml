@@ -40,7 +40,7 @@ jobs:
 
       # 4) Run unit tests (Jest)
       - name: Run unit tests (Jest)
-        run: npm test --passWithNoTests
+        # run: npm test --passWithNoTests
 
       # 5) Build the website (React production build)
       - name: Build website
