@@ -2,15 +2,70 @@ name: CI-Pipeline
 
 on:
   push:
-    branches:
-      - "main"
+    branches: ["main"]
 
 jobs:
   publish:
     runs-on: ubuntu-latest
 
-    steps:
-      - name: Test
-        run: echo "This is a test if the pipeline is working correctly."
+    # Needed if you push images to GHCR with GITHUB_TOKEN
+    permissions:
+      contents: read
+      packages: write
 
-     
+    env:
+      NODE_VERSION: "20"
+      # Change if you use yarn/pnpm
+      PACKAGE_MANAGER: "npm"
+
+      # ---- Docker image settings (example: GitHub Container Registry) ----
+      REGISTRY: ghcr.io
+      IMAGE_TAG: latest
+
+    steps:
+      # 1) Get your repo
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # 2) Setup Node + cache
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+
+      # 3) Install dependencies (reproducible)
+      - name: Install dependencies
+        run: npm ci
+
+      # 4) Run unit tests (Jest)
+      - name: Run unit tests (Jest)
+        run: npm test
+
+      # 5) Build the website (React production build)
+      - name: Build website
+        run: npm run build
+
+      # 6) Docker: test build image (recommended)
+      - name: Test Build Docker Image
+        run: docker build -t ${{ env.REGISTRY }}/${{ github.repository }}:latest .
+
+      # 7) Login to registry (example: GHCR)
+      # If you use Docker Hub, replace registry/username/password secrets accordingly.
+      - name: Login to container registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GH_TOKEN }}
+
+      # 8) Push image
+      - name: Test push image
+        run: |
+          docker push ${{ env.REGISTRY }}/${{ github.repository }}:latest
+
+      # 9) Deploy (placeholder — you will implement)
+      - name: Deploy (placeholder)
+        run: |
+          echo "Deploy step goes here."
+          echo "Example: SSH into VPS and docker compose pull && docker compose up -d"
