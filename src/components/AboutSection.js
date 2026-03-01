@@ -8,7 +8,7 @@ import linkedin from '../images/linkedin.svg';
 import instagram from '../images/instagram.svg';
 import phone from '../images/phone.svg';
 import mail from '../images/mail.svg';
-import { useState, useRef, useEffect } from 'react';
+import React, { useEffect, useCallback, useRef, useState } from "react";
 
 function AboutSection() {
   const [activeSection, setActiveSection] = useState('about-intro');
@@ -30,7 +30,7 @@ function AboutSection() {
     }, 500);
   };
 
-  const handleWheel = (e) => {
+  const handleWheel = useCallback((e) => {
     if (isScrolling.current || isTransitioning) return;
 
     isScrolling.current = true;
@@ -45,7 +45,14 @@ function AboutSection() {
     setTimeout(() => {
       isScrolling.current = false;
     }, 100);
-  };
+  }, [isTransitioning]);
+
+  useEffect(() => {
+    window.addEventListener("wheel", handleWheel, { passive: false });
+    return () => {
+      window.removeEventListener("wheel", handleWheel);
+    };
+  }, [handleWheel]);
 
   useEffect(() => {
     window.addEventListener('wheel', handleWheel, { passive: false });
