@@ -1,0 +1,10 @@
+@import url('https://fonts.cdnfonts.com/css/poppins');
+
+* {
+  font-family: 'Poppins', sans-serif;                                                
+}
+
+html {
+  scroll-behavior: smooth;
+  overflow-y: hidden;
+}
