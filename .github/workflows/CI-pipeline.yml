@@ -1,0 +1,16 @@
+name: CI-Pipeline
+
+on:
+  push:
+    branches:
+      - "main"
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Test
+        run: echo "This is a test if the pipeline is working correctly."
+
+     
