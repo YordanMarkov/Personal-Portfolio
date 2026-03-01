@@ -17,6 +17,7 @@ jobs:
       NODE_VERSION: "20"
       # Change if you use yarn/pnpm
       PACKAGE_MANAGER: "npm"
+      IMAGE_NAME: "personal-portfolio"
 
       # ---- Docker image settings (example: GitHub Container Registry) ----
       REGISTRY: ghcr.io
@@ -49,7 +50,7 @@ jobs:
 
       # 6) Docker: test build image (recommended)
       - name: Test Build Docker Image
-        run: docker build -t ${{ env.REGISTRY }}/${{ github.repository }}:latest .
+        run: docker build -t ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest .
 
       # 7) Login to registry (example: GHCR)
       # If you use Docker Hub, replace registry/username/password secrets accordingly.
@@ -63,7 +64,7 @@ jobs:
       # 8) Push image
       - name: Test push image
         run: |
-          docker push ${{ env.REGISTRY }}/${{ github.repository }}:latest
+          docker push ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
 
       # 9) Deploy (placeholder — you will implement)
       - name: Deploy (placeholder)
