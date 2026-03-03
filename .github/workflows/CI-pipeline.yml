@@ -42,7 +42,8 @@ jobs:
       # 4) Run unit tests (Jest)
       - name: Run unit tests (Jest)
         # run: npm test --passWithNoTests
-        run: echo "No tests for now."
+        # run: echo "No tests for now."
+        run: npm test -- --watchAll=false
 
       # 5) Build the website (React production build)
       - name: Build website
