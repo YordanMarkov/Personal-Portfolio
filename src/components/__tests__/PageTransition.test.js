@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen, act } from "@testing-library/react";
 import PageTransition from "../PageTransition";
 
 jest.useFakeTimers();
@@ -18,11 +18,13 @@ test("renders initial child and transitions on activeKey change", () => {
     </PageTransition>
   );
 
-  // before timer completes, old content still displayed
+  // still old content before timer completes
   expect(screen.getByText("HOME")).toBeInTheDocument();
 
-  // run the 300ms timeout
-  jest.advanceTimersByTime(300);
+  // flush the timeout inside act
+  act(() => {
+    jest.advanceTimersByTime(300);
+  });
 
   expect(screen.getByText("ABOUT")).toBeInTheDocument();
 });
