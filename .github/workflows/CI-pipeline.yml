@@ -1,78 +1,42 @@
-name: CI-Pipeline
+name: CI
 
 on:
+  # Run on every push to main and every PR
   push:
     branches: ["main"]
+  pull_request:
 
 jobs:
-  publish:
+  ci:
     runs-on: ubuntu-latest
-
-    # Needed if you push images to GHCR with GITHUB_TOKEN
-    permissions:
-      contents: read
-      packages: write
 
     env:
       NODE_VERSION: "20"
-      # Change if you use yarn/pnpm
-      PACKAGE_MANAGER: "npm"
-      IMAGE_NAME: ""
-
-      # ---- Docker image settings (example: GitHub Container Registry) ----
-      REGISTRY: ghcr.io
-      IMAGE_TAG: latest
 
     steps:
-      # 1) Get your repo
-      - name: Checkout
+      # 1) Checkout repository
+      - name: 1) Checkout repository
         uses: actions/checkout@v4
 
-      # 2) Setup Node + cache
-      - name: Setup Node.js
+      # 2) Setup Node.js environment
+      - name: 2) Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: npm
 
-      # 3) Install dependencies (reproducible)
-      - name: Install dependencies
+      # 3) Install dependencies (deterministic)
+      - name: 3) Install dependencies
         run: npm ci
 
-      # 4) Run unit tests (Jest)
-      - name: Run unit tests (Jest)
-        # run: npm test --passWithNoTests
-        # run: echo "No tests for now."
+      # 4) Run unit tests (quality gate)
+      - name: 4) Run unit tests (Jest)
         run: npm test -- --watchAll=false
 
-      # 5) Build the website (React production build)
-      - name: Build website
+      # 5) Build production version
+      - name: 5) Build production build
         run: npm run build
 
-      # 6) Build the website (React production build)
-      - name: Set lowercase image name
-        run: echo "IMAGE_NAME=$(echo '${{ github.repository }}' | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
-
-      # 7) Docker: test build image (recommended)
-      - name: Test Build Docker Image
-        run: docker build -t ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest .
-
-      # 8) Login to registry (example: GHCR)
-      # If you use Docker Hub, replace registry/username/password secrets accordingly.
-      - name: Login to container registry
-        uses: docker/login-action@v3
-        with:
-          registry: ${{ env.REGISTRY }}
-          username: ${{ github.actor }}
-          password: ${{ secrets.GH_TOKEN }}
-
-      # 9) Push image
-      - name: Test push image
-        run: |
-          docker push ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
-
-      # 10) Deploy (placeholder — you will implement)
-      - name: Deploy (placeholder)
-        run: |
-          echo "Deploy step goes here."
-          echo "Example: SSH into VPS and docker compose pull && docker compose up -d"
+      # 6) Verify Dockerfile builds (no push)
+      - name: 6) Docker build smoke test
+        run: docker build -t portfolio:ci .
