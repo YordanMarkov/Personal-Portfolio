@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import emailjs from '@emailjs/browser';
 import './HeroSection.css';
+import './ContactSurface.css';
 import Portrait from '../images/Portrait.jpg';
 import linkedin from '../images/linkedin.svg';
 import instagram from '../images/instagram.svg';
-import phone from '../images/phone.svg';
-import mail from '../images/mail.svg';
+import EmailContact from './EmailContact';
 
 function HeroSection() {
   const [showForm, setShowForm] = useState(false);
@@ -65,12 +65,7 @@ function HeroSection() {
           <a href="https://www.instagram.com/markovyordan" target="_blank" rel="noopener noreferrer">
             <img src={instagram} alt="Instagram" />
           </a>
-          <a href="tel:+359882064129">
-            <img src={phone} alt="Phone" />
-          </a>
-          <a href="mailto:yordanmarkov2004@gmail.com">
-            <img src={mail} alt="Email" />
-          </a>
+          <EmailContact />
         </div>
       </div>
 

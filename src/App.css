@@ -1,6 +1,15 @@
+.app-shell {
+  display: flex;
+  flex-direction: column;
+  min-height: 100svh;
+}
+.app-shell > .header { flex-shrink: 0; }
 .page-container {
   position: relative;
-  min-height: 100vh;
-  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  overflow-x: clip;
   overflow-y: visible;
 }
+.page-container > .page-transition { display: flex; flex-direction: column; flex: 1; }

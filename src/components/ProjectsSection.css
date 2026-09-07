@@ -218,92 +218,6 @@
   transform: scale(1.1);
 }
 
-.popup-overlay {
-  position: absolute;
-  top: 100px;
-  left: 0;
-  width: 100%;
-  background: transparent;
-  display: block;
-  z-index: 9999;
-}
-
-.popup-container {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  background: white;
-  border-radius: 20px;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
-  padding: 1rem;
-  max-width: 90vw;
-  max-height: 90vh;
-  overflow: hidden;
-  z-index: 10000;
-  pointer-events: all;
-
-  opacity: 0;
-  transform: translateX(-50%) scale(0.96);
-  animation: popupFadeIn 0.25s ease-out forwards;
-}
-
-@keyframes popupFadeIn {
-  to {
-    opacity: 1;
-    transform: translateX(-50%) scale(1);
-  }
-}
-
-.popup-media {
-  max-width: 100%;
-  max-height: 80vh;
-  border-radius: 16px;
-  object-fit: contain;
-}
-
-.popup-close-btn {
-  position: absolute;
-  top: 0.4rem;
-  right: 0.6rem;
-  font-size: 1.8rem;
-  background: white;
-  border-radius: 20px;
-  border-style: none;
-  width: 50px;
-  height: 50px;
-  color: #444;
-  cursor: pointer;
-  z-index: 2;
-  transition: transform 0.2s ease;
-}
-
-.popup-close-btn:hover {
-  transform: scale(1.2);
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: scale(0.96); }
-  to { opacity: 1; transform: scale(1); }
-}
-
-@media (max-width: 600px) {
-  .popup-container {
-    padding: 0.5rem;
-    max-width: 95vw;
-    max-height: 75vh;
-  }
-
-  .popup-close-btn {
-    top: 0.3rem;
-    right: 0.5rem;
-    font-size: 1.5rem;
-  }
-
-  .popup-media {
-    max-height: 60vh;
-  }
-}
-
 @media (max-width: 950px) {
   .projects-section {
     padding: 2rem 1.5rem;
@@ -456,6 +370,26 @@
 
 .portfolio-card:hover {
   transform: scale(1.05);
+}
+
+.gallery-crop {
+  position: relative;
+  overflow: hidden;
+  flex-shrink: 0;
+  padding: 0;
+  border: 0;
+  background: #f8fafc;
+}
+
+.gallery-crop img {
+  position: absolute;
+  display: block;
+  max-width: none;
+}
+
+.gallery-crop:focus-visible {
+  outline: 3px solid #8172d5;
+  outline-offset: 5px;
 }
 
 .portfolio-card:focus-visible {

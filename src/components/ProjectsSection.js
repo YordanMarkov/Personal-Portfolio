@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import ReactDOM from 'react-dom';
+import MediaViewer from './MediaViewer';
 
 import './ProjectsSection.css';
 
@@ -39,7 +39,71 @@ import s2 from '../images/s2.jpg';
 import s3 from '../images/s3.jpg';
 import semester3PDF from '../images/Semester_3.pdf';
 
+import careerQuestion from '../images/career-question.png';
+import careerSlider from '../images/career-slider.png';
+import careerResult from '../images/career-result.png';
+import careerReport from '../images/career-report.png';
+import repositoryUpload from '../images/repository-upload.png';
+import repositoryOverview from '../images/repository-overview.png';
+import repositoryAssessment from '../images/repository-assessment.png';
+import repositoryScores from '../images/repository-scores.png';
+import requirementsSpecification from '../images/requirements-specification.png';
+import requirementsContext from '../images/requirements-context.png';
+import requirementsContainers from '../images/requirements-containers.png';
+import requirementsInput from '../images/requirements-input.png';
+import careerDemo from '../images/career-demo.mp4';
+import repositoryDemo from '../images/repository-demo.mp4';
+import requirementsDemo from '../images/requirements-demo.mp4';
+
 const projects = [
+  {
+    title: 'Career Discovery',
+    date: 'June 2026',
+    description: `AI-Generated Adaptive Questionnaire helps users explore career directions through a personalized question flow. Starting with three foundation questions, it generates follow-up questions based on previous answers using formats such as multiple choice, sliders, ranking, and open text. I built the prototype with structured output validation and repetition checks, refining it through user feedback to cover a broader range of careers. The final report explains the suggested direction, offers alternatives, and provides practical next steps for further exploration.`,
+    tools: ['Next.js', 'React.js', 'TypeScript', 'OpenAI', 'Zod', 'GitHub Actions', 'Vercel', 'Research', 'Prototyping', 'Usability testing'],
+    media: {
+      screenshots: true,
+      bigImage: careerQuestion,
+      smallLeft: careerSlider,
+      video: careerDemo,
+      smallTopRight: careerResult,
+      smallBottomRight: careerReport,
+    },
+    demo: 'https://ai-generated-adaptive-questionnaire.vercel.app/',
+    github: 'https://github.com/YordanMarkov/AI-Generated-Adaptive-Questionnaire',
+  },
+  {
+    title: 'Repository Inspector',
+    date: 'May 2026',
+    description: `AI-Assisted Repository Inspection helps developers understand existing projects and identify maintainability improvements. Users can upload a repository ZIP or enter a public GitHub URL to receive a structured report covering documentation, testing, configuration, and delivery readiness. I combined deterministic repository scanning with AI-generated interpretation, keeping the collected evidence visible alongside prioritized recommendations. Evaluated with more than seven repositories, the prototype supports report history and exports, providing a starting point for onboarding and code review.`,
+    tools: ['Next.js', 'React.js', 'TypeScript', 'OpenAI', 'JSZip', 'localStorage', 'Vitest', 'GitHub Actions', 'Vercel', 'Research'],
+    media: {
+      screenshots: true,
+      bigImage: repositoryUpload,
+      smallLeft: repositoryOverview,
+      video: repositoryDemo,
+      smallTopRight: repositoryAssessment,
+      smallBottomRight: repositoryScores,
+    },
+    demo: 'https://ai-assisted-repository-inspection.vercel.app/',
+    github: 'https://github.com/YordanMarkov/AI-Assisted-Repository-Inspection',
+  },
+  {
+    title: 'Requirements',
+    date: 'February 2026',
+    description: `AI-Assisted Requirement Synthesis turns informal stakeholder descriptions into structured software documentation. I developed a multi-step pipeline that extracts requirements, generates a Software Requirements Specification, and produces C4 Context and Container diagrams rendered with Mermaid. Users can inspect each stage, revisit previous results, and export artifacts as JSON, HTML, or PDF. Testing with multiple stakeholder scenarios showed that the tool produces useful initial drafts, while human review remains necessary to refine assumptions and non-functional requirements.`,
+    tools: ['React.js', 'OpenAI', 'Markdown', 'Mermaid', 'C4 Model', 'GitHub Actions', 'Vercel', 'Requirements Engineering', 'Research', 'Prototyping'],
+    media: {
+      screenshots: true,
+      bigImage: requirementsContext,
+      smallLeft: requirementsSpecification,
+      video: requirementsDemo,
+      smallTopRight: requirementsContainers,
+      smallBottomRight: requirementsInput,
+    },
+    demo: 'https://experiment-2-bay.vercel.app/',
+    github: 'https://github.com/YordanMarkov/Experiment-2',
+  },
   {
     title: 'Water Calculator',
     date: 'October 2024 - March 2025',
@@ -100,18 +164,50 @@ const projects = [
   }
 ];
 
+// Thumbnail-only framing: [left, top, square size, original width, original height].
+// Opening a thumbnail always shows the complete, unmodified screenshot.
+const screenshotFrames = new Map([
+  [careerQuestion, { crop: [320, 85, 760, 1117, 890], alt: 'Adaptive career questions' }],
+  [careerSlider, { crop: [35, 45, 235, 1144, 716], alt: 'Career discovery progress' }],
+  [careerResult, { crop: [620, 130, 670, 1900, 1079], alt: 'Personalized career direction' }],
+  [careerReport, { crop: [1105, 5, 335, 1898, 1079], alt: 'Related career matches' }],
+  [repositoryUpload, { crop: [680, 110, 550, 1905, 942], alt: 'Repository upload and inspection' }],
+  [repositoryOverview, { crop: [340, 215, 600, 1901, 941], alt: 'Repository evidence and detected technologies' }],
+  [repositoryAssessment, { crop: [960, 75, 600, 1902, 945], alt: 'Repository improvement recommendations' }],
+  [repositoryScores, { crop: [340, 225, 610, 1903, 940], alt: 'Repository quality scores' }],
+  [requirementsContext, { crop: [65, 150, 700, 1611, 856], alt: 'C4 context diagram showing actors and the system' }],
+  [requirementsSpecification, { crop: [630, 70, 590, 1262, 950], alt: 'Generated software requirements specification' }],
+  [requirementsContainers, { crop: [1020, 340, 550, 1679, 898], alt: 'C4 container diagram database detail' }],
+  [requirementsInput, { crop: [205, 130, 590, 1000, 1000], alt: 'Stakeholder input and requirements pipeline' }],
+]);
+
+const GalleryImage = ({ src, alt, className, onClick }) => {
+  const frame = screenshotFrames.get(src);
+  if (!frame) return <img src={src} alt={alt} className={className} onClick={onClick} />;
+  const [left, top, size, width, height] = frame.crop;
+  return (
+    <button type="button" className={className + ' gallery-crop'} onClick={onClick} aria-label={'Enlarge ' + frame.alt.toLowerCase()}>
+      <img src={src} alt={frame.alt} style={{
+        width: (width / size * 100) + '%',
+        height: (height / size * 100) + '%',
+        left: (-left / size * 100) + '%',
+        top: (-top / size * 100) + '%',
+      }} />
+    </button>
+  );
+};
+
 const ProjectsSection = () => {
   const [expandedMedia, setExpandedMedia] = useState(null);
 
   const handleExpand = (src) => {
-    const scrollTop = window.scrollY || document.documentElement.scrollTop;
-    setExpandedMedia({ src, top: scrollTop + 100 });
+    setExpandedMedia({ src });
   };
 
   return (
     <section className="projects-section">
       {projects.map((proj, index) => (
-        <div key={index} className="project-container">
+        <div key={index} className={`project-container${proj.media.screenshots ? ' project-screenshots' : ''}`}>
           <div className="left-side">
             <div className="title-row">
               <img src={projectIcon} alt="project icon" className="icon" />
@@ -123,13 +219,13 @@ const ProjectsSection = () => {
             <p className="description">{proj.description}</p>
 
             <div className="left-media">
-              <img
+              <GalleryImage
                 src={proj.media.bigImage}
                 alt="Big"
                 className="media-big"
                 onClick={() => handleExpand(proj.media.bigImage)}
               />
-              <img
+              <GalleryImage
                 src={proj.media.smallLeft}
                 alt="Small Left"
                 className="media-small"
@@ -157,13 +253,13 @@ const ProjectsSection = () => {
               </div>
 
               <div className="small-stack">
-                <img
+                <GalleryImage
                   src={proj.media.smallTopRight}
                   alt="Top Right"
                   className="media-small"
                   onClick={() => handleExpand(proj.media.smallTopRight)}
                 />
-                <img
+                <GalleryImage
                   src={proj.media.smallBottomRight}
                   alt="Bottom Right"
                   className="media-small"
@@ -203,21 +299,7 @@ const ProjectsSection = () => {
         </div>
       ))}
 
-      {expandedMedia &&
-        ReactDOM.createPortal(
-            <div className="popup-overlay" onClick={() => setExpandedMedia(null)}>
-            <div className="popup-container" onClick={(e) => e.stopPropagation()}>
-                <button className="popup-close-btn" onClick={() => setExpandedMedia(null)}>✖</button>
-                {expandedMedia.src.endsWith('.mp4') ? (
-                <video src={expandedMedia.src} className="popup-media" controls autoPlay />
-                ) : (
-                <img src={expandedMedia.src} alt="expanded" className="popup-media" />
-                )}
-            </div>
-            </div>,
-            document.body
-        )
-      }
+      {expandedMedia && <MediaViewer src={expandedMedia.src} onClose={() => setExpandedMedia(null)} />}
 
       <div className="other-portfolios">
         <h2 className="portfolios-title">Other portfolios</h2>

@@ -1,68 +1,31 @@
 import './Experience.css';
 import workIcon from '../images/work.svg';
 
-function Experience() {
+const experience = [
+  { role: 'Frontend & UX Intern', company: 'ASML', date: 'Sep 2025 - Jan 2026 - Veldhoven', points: ['Developed an internal tool using Next.js, React, and D3.js, with a focus on usability and clear interaction design.', 'Researched user needs and refined Figma designs through feedback from stakeholders and UX colleagues.', 'Prepared documentation and handed over the work at the end of the internship.'] },
+  { role: 'Student Assistant', company: 'Fontys ICT', date: 'Sep 2024 - Nov 2024 - Eindhoven', points: ['Helped students navigate their studies and work through technical problems.', 'Explained concepts and proposed solutions for Python, HTML, CSS, and networking questions.', 'Supported learning through practical guidance and clear communication.'] },
+  { role: 'Intern', company: 'Haemimont AD', date: 'Aug 2022 - Sep 2022 - Sofia', points: ['Learned to develop web applications using Vue.js and JavaScript.', 'Implemented interfaces based on designs provided by a colleague.', 'Communicated with that colleague to translate the designs into working pages.'] },
+  { role: 'Intern', company: 'Step-Soft', date: 'Jul 2022 - Sofia', points: ['Developed and maintained databases using Microsoft SQL Server.', 'Wrote queries to retrieve and organize information from those databases.', 'Gained practical experience working with relational data in a professional setting.'] },
+  { role: 'Designer', company: 'Hack TUES & TUES Fest', date: 'Aug 2021 - Jul 2022 - Sofia', points: ['Designed event materials, including T-shirts, posters, pens, and cups.', 'Created social media posts and videos to support the events.', 'Arranged products and visual materials for a consistent presentation at the events.'] },
+];
+
+export default function Experience() {
   return (
     <section id="experience" className="about-section experience-section">
-      <h1 className="experience-title">Experience</h1>
+      <h2 className="experience-title">Experience</h2>
       <div className="experience-container">
-
-        <div className="experience-item">
-          <img src={workIcon} alt="Work Icon" className="experience-icon"/>
-          <div className="experience-details">
-            <h2>Student assistant</h2>
-            <h3>Fontys ICT</h3>
-            <span className="experience-date">Sep 2024 – Oct 2024</span>
-            <ul>
-              <li>Helping the students navigate their studies and problems.</li>
-              <li>Proposing solutions for Python, HTML, CSS and Networking queries.</li>
-            </ul>
-          </div>
-        </div>
-
-        <div className="experience-item">
-          <img src={workIcon} alt="Work Icon" className="experience-icon"/>
-          <div className="experience-details">
-            <h2>Intern</h2>
-            <h3>Step-Soft</h3>
-            <span className="experience-date">Jul 2022 – Jul 2022</span>
-            <ul>
-              <li>Develop and maintain several databases using MSSQL.</li>
-              <li>Develop queries to gather information from the databases.</li>
-            </ul>
-          </div>
-        </div>
-
-        <div className="experience-item">
-          <img src={workIcon} alt="Work Icon" className="experience-icon"/>
-          <div className="experience-details">
-            <h2>Designer</h2>
-            <h3>Hack TUES & TUES Fest</h3>
-            <span className="experience-date">Aug 2021 – Jul 2022</span>
-            <ul>
-              <li>Create materials such as T-shirts, posters, pens, cups for events.</li>
-              <li>Create social media posts and videos for events.</li>
-              <li>Arrange the products aesthetically for events.</li>
-            </ul>
-          </div>
-        </div>
-
-        <div className="experience-item">
-          <img src={workIcon} alt="Work Icon" className="experience-icon"/>
-          <div className="experience-details">
-            <h2>Intern</h2>
-            <h3>Haemimont AD</h3>
-            <span className="experience-date">Aug 2021 – Sep 2021</span>
-            <ul>
-              <li>Learn how to develop web apps using Vue.js.</li>
-              <li>Communicate with a colleague, following their designs.</li>
-            </ul>
-          </div>
-        </div>
-
+        {experience.map(item => (
+          <article className="experience-item" key={item.company}>
+            <img src={workIcon} alt="" className="experience-icon" />
+            <div className="experience-details">
+              <span className="experience-date">{item.date}</span>
+              <h3>{item.role}</h3><h4>{item.company}</h4>
+              <ul>{item.points.map(point => <li key={point}>{point}</li>)}</ul>
+            </div>
+          </article>
+        ))}
       </div>
     </section>
   );
 }
 
-export default Experience;

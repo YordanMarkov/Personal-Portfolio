@@ -17,7 +17,7 @@ function App() {
   };
 
   return (
-    <div>
+    <div className="app-shell">
       <Header activePage={activePage} setActivePage={setActivePage} />
       <div className="page-container">
         <PageTransition activeKey={activePage}>
