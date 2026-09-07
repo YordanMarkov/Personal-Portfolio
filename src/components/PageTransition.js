@@ -14,7 +14,7 @@ function PageTransition({ children, activeKey }) {
     }, 300); // match CSS duration
 
     return () => clearTimeout(timeout);
-  }, [activeKey]);
+  }, [activeKey, children]);
 
   return (
     <div className={`page-transition ${animationState}`}>

@@ -8,16 +8,17 @@ import linkedin from '../images/linkedin.svg';
 import instagram from '../images/instagram.svg';
 import phone from '../images/phone.svg';
 import mail from '../images/mail.svg';
-import { useState, useRef, useEffect } from 'react';
+import React, { useEffect, useCallback, useMemo, useRef, useState } from "react";
 
 function AboutSection() {
   const [activeSection, setActiveSection] = useState('about-intro');
-  const sections = ['about-intro', 'education', 'skills', 'experience'];
+  const sections = useMemo(() => ['about-intro', 'education', 'skills', 'experience'], []);
+
   const sectionIndex = useRef(0);
   const isScrolling = useRef(false);
   const [isTransitioning, setIsTransitioning] = useState(false);
 
-  const changeSection = (targetIndex) => {
+  const changeSection = useCallback((targetIndex) => {
     if (isTransitioning || targetIndex === sectionIndex.current) return;
 
     setIsTransitioning(true);
@@ -28,9 +29,9 @@ function AboutSection() {
       sectionIndex.current = targetIndex;
       setIsTransitioning(false);
     }, 500);
-  };
+  }, [isTransitioning, sections]);
 
-  const handleWheel = (e) => {
+  const handleWheel = useCallback((e) => {
     if (isScrolling.current || isTransitioning) return;
 
     isScrolling.current = true;
@@ -45,23 +46,19 @@ function AboutSection() {
     setTimeout(() => {
       isScrolling.current = false;
     }, 100);
-  };
+  }, [isTransitioning, changeSection, sections.length]);
 
   useEffect(() => {
-    window.addEventListener('wheel', handleWheel, { passive: false });
-    return () => {
-      window.removeEventListener('wheel', handleWheel);
-    };
-  }, []);
+    window.addEventListener("wheel", handleWheel, { passive: false });
+    return () => window.removeEventListener("wheel", handleWheel);
+  }, [handleWheel]);
 
   const renderSections = () => (
     <>
       {sections.map((section) => (
         <div
           key={section}
-          className={`section-wrapper ${
-            activeSection === section ? 'fade-in' : 'fade-out'
-          }`}
+          className={`section-wrapper ${activeSection === section ? 'fade-in' : 'fade-out'}`}
         >
           <div className="section-inner">
             {section === 'about-intro' && <AboutIntro />}
@@ -76,7 +73,6 @@ function AboutSection() {
 
   return (
     <section id="about" className="about">
-
       <div className="about-content">{renderSections()}</div>
 
       <div className="about-left">
@@ -86,7 +82,7 @@ function AboutSection() {
               key={section}
               className={`about-dot ${activeSection === section ? 'active' : ''}`}
               onClick={() => changeSection(index)}
-            ></span>
+            />
           ))}
         </div>
       </div>
