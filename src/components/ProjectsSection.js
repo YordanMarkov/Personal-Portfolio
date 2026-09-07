@@ -229,18 +229,18 @@ const ProjectsSection = () => {
           </em>
         </p>
         <div className="portfolio-grid">
-          <div className="portfolio-card">
-            <img src={s3} alt="Semester 3" className="portfolio-thumb" onClick={() => window.open(semester3PDF, '_blank')}/>
+          <a className="portfolio-card" href={semester3PDF} target="_blank" rel="noopener noreferrer">
+            <img src={s3} alt="Semester 3" className="portfolio-thumb" />
             <p><strong>Semester 3 Portfolio</strong></p>
-          </div>
-          <div className="portfolio-card">
-            <img src={s2} alt="Semester 2" className="portfolio-thumb" onClick={() => window.open('https://i524517.hera.fontysict.net/portfolio-s2/index.html', '_blank')}/>
+          </a>
+          <a className="portfolio-card" href="https://i524517.hera.fontysict.net/portfolio-s2/index.html" target="_blank" rel="noopener noreferrer">
+            <img src={s2} alt="Semester 2" className="portfolio-thumb" />
             <p><strong>Semester 2 Portfolio</strong></p>
-          </div>
-          <div className="portfolio-card">
-            <img src={s1} alt="Semester 1" className="portfolio-thumb" onClick={() => window.open('https://i524517.hera.fontysict.net/s1-portfolio/', '_blank')}/>
+          </a>
+          <a className="portfolio-card" href="https://i524517.hera.fontysict.net/s1-portfolio/" target="_blank" rel="noopener noreferrer">
+            <img src={s1} alt="Semester 1" className="portfolio-thumb" />
             <p><strong>Semester 1 Portfolio</strong></p>
-          </div>
+          </a>
         </div>
       </div>
     </section>
