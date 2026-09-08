@@ -3,7 +3,7 @@ import educationIcon from '../images/education.svg';
 
 const education = [
   { school: 'Eindhoven University of Technology', course: 'Pre-master - Computer Science and Engineering', date: 'Sep 2026 - Jan 2027 (expected)', text: 'Currently studying algorithms, data structures, discrete mathematics, logic, calculus, and formal computer science.' },
-  { school: 'Fontys University of Applied Sciences', course: 'ICT - Software, mobile, and media design', date: '2023 - Present', text: 'Completed ICT & Complex Software Systems (Feb - Jun 2026), following an internship semester, ICT & Smart Mobile, and ICT & Media Design. Obtained my propaedeutic diploma.' },
+  { school: 'Fontys University of Applied Sciences', course: 'ICT - Software, mobile, and media design', date: '2023 - Present', text: 'Completed Complex Software Systems (Feb - Jun 2026), following an internship semester, ICT & Smart Mobile, and ICT & Media Design. Obtained my propaedeutic diploma.' },
   { school: 'Technology School Electronic Systems (TUES)', course: 'Secondary education - System Programming', date: 'Sep 2018 - May 2023 - Sofia, Bulgaria', text: 'High school diploma with a professional qualification in System Programming.' },
 ];
 
