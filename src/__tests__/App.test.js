@@ -5,6 +5,7 @@ import App from "../App";
 jest.mock("../components/HeroSection", () => () => <section id="home">HOME</section>);
 jest.mock("../components/AboutSection", () => () => <section id="about">ABOUT</section>);
 jest.mock("../components/ProjectsSection", () => () => <section id="projects">PROJECTS</section>);
+jest.mock("@vercel/analytics/react");
 
 test("starts at home and navigates to about", async () => {
   const user = userEvent.setup();

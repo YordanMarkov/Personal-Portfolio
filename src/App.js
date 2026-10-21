@@ -5,6 +5,7 @@ import AboutSection from './components/AboutSection';
 import ProjectsSection from './components/ProjectsSection';
 import PageTransition from './components/PageTransition';
 import { useState } from 'react';
+import { Analytics } from '@vercel/analytics/react';
 
 function App() {
   const [activePage, setActivePage] = useState('home');
@@ -24,6 +25,7 @@ function App() {
           {renderPage()}
         </PageTransition>
       </div>
+      <Analytics />
     </div>
   );
 }
